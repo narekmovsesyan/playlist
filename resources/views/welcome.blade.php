@@ -36,18 +36,21 @@
                         <div class="col-sm-3 col-md-3">
                             <div class="panel-group" id="accordion">
                                 <div class="panel panel-default">
-                                    <div class="panel-heading col-sm-8 col-md-8">
+                                    <div class="panel-heading col-sm-12 col-md-12" id="headStyleMenu">
+                                        <div class="col-sm-8 col-md-8">
                                         <span class="genre-list">
                                               Genre List
                                           </span>
-                                        </h4>
-                                    </div>
-                                    <div class="panel-heading col-sm-4 col-md-4">
+                                            </h4>
+                                        </div>
+                                        <div class="col-sm-4 col-md-4">
                                           <span>
                                               Points
                                           </span>
-                                        </h4>
+                                            </h4>
+                                        </div>
                                     </div>
+
                                     <div id="collapseOne" class="panel-collapse collapse in">
                                         <ul class="list-group table">
                                           @foreach($all_genres as $genre)
@@ -73,7 +76,7 @@
                                             @endforeach
                                               <button type="submit" class="btn btn-default center-block save-playlist">Save Playlist</button>
                                         </ul>
-                                        <p class="error_info text-center">Please select Genre</p>
+                                        <p class="error-info text-center">Please select Genre</p>
 
                                     </div>
                                 </div>
@@ -86,7 +89,7 @@
 
                                     </video>
                                 </div>
-                                <button type="button" id="button_ffw" class="btn center-block">
+                                <button type="button" id="buttonFfw" class="btn center-block">
                                     <i class="fa fa-fast-forward"></i>
                                 </button>
                             </div>
@@ -94,10 +97,10 @@
                         </div>
                         <div class="col-sm-4 col-md-3">
                             <div class="panel panel-default">
-                                <div class="panel-heading">Music Playlist</div>
+                                <div class="panel-heading" id="headStyleList">Music Playlist</div>
                                 <div class="panel-body panel-scroll">
                                     <div class="music_list">
-                                        <ul class="list-group list-group-flush all_songs_ul">
+                                        <ul class="list-group list-group-flush all-songs-ul">
 
                                         </ul>
                                     </div>

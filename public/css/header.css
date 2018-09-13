@@ -1,4 +1,4 @@
-.active_song{
+.active-song{
     background-color: #31b0d5;
 }
 
@@ -21,7 +21,7 @@
     text-transform: uppercase;
     color:#fff;
 }
-.error_info{
+.error-info{
     display: none;
     color: #a94442
 }
@@ -44,4 +44,14 @@ ul li{
 }
 .music_list{
     width: 228px;
+}
+#headStyleList{
+    background-color: #31b0d5;
+    color: #f5f8fa;
+}
+#headStyleMenu{
+    border-bottom: 1px solid #dedede;
+    margin-bottom: 15px;
+    background-color: #31b0d5;
+    color: #f5f8fa;
 }

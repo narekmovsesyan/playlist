@@ -7,9 +7,9 @@ $( document ).ready(function() {
 
     $('.save-playlist').on( "click", function() {
         $('#video source').remove();
-        $('.all_songs_ul li').remove();
+        $('.all-songs-ul li').remove();
 
-        $('.error_info').hide();
+        $('.error-info').hide();
 
             var playlist = [];
 
@@ -20,7 +20,7 @@ $( document ).ready(function() {
         });
 
         if(playlist.length === 0){
-            $('.error_info').show();
+            $('.error-info').show();
         }
 
         $.ajax({
@@ -48,9 +48,9 @@ $( document ).ready(function() {
                     $.each(value, function( index2, value2 ) {
                         count++;
                         if(count === 1){
-                            $('.all_songs_ul').append('<li class="list-group-item active_song" data-path="'+value2+'" id="'+key+'">'+count+" "+index2+'</li>');
+                            $('.all-songs-ul').append('<li class="list-group-item active-song" data-path="'+value2+'" id="'+key+'">'+count+" "+index2+'</li>');
                         } else {
-                            $('.all_songs_ul').append('<li class="list-group-item" data-path="'+value2+'" id="'+key+'">'+count+" "+index2+'</li>');
+                            $('.all-songs-ul').append('<li class="list-group-item" data-path="'+value2+'" id="'+key+'">'+count+" "+index2+'</li>');
                         }
                     });
                 });
@@ -58,35 +58,35 @@ $( document ).ready(function() {
         });
     });
 
-    var count_for_li = 0;
+    var countForLi = 0;
     var video = document.getElementById('video');
     var source = document.createElement('source');
 
     function Player() {
-        ++count_for_li;
+        ++countForLi;
 
-        var first_li,
-            file_name;
+        var firstLi,
+            fileName;
 
-        var all_li_count = $(".all_songs_ul li").length;
-        var active_li = $('.all_songs_ul li.active_song').removeClass('active_song');
+        var allLiCount = $(".all-songs-ul li").length;
+        var activeLi = $('.all-songs-ul li.active-song').removeClass('active-song');
 
         $('#video source').remove();
 
-        if (count_for_li !== all_li_count) {
+        if (countForLi !== allLiCount) {
 
-            active_li.next('li').addClass('active_song');
-            file_name = active_li.next().data('path');
+            activeLi.next('li').addClass('active-song');
+            fileName = activeLi.next().data('path');
 
         } else {
 
-            first_li = $(".all_songs_ul li").first().addClass('active_song');
-            file_name = first_li.data("path");
+            firstLi = $(".all-songs-ul li").first().addClass('active-song');
+            fileName = firstLi.data("path");
 
-            count_for_li = 0;
+            countForLi = 0;
         }
 
-        source.setAttribute('src', '/videos/'+file_name);
+        source.setAttribute('src', '/videos/'+fileName);
 
         video.pause();
         video.appendChild(source);
@@ -96,7 +96,7 @@ $( document ).ready(function() {
     }
 
     // change song when click next button
-    $('#button_ffw').on('click', Player);
+    $('#buttonFfw').on('click', Player);
 
     // autoplay next song after finished preview
     video.addEventListener('ended', Player);
