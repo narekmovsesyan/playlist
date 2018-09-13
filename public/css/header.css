@@ -1,0 +1,47 @@
+.active_song{
+    background-color: #31b0d5;
+}
+
+.navbar {
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-wrap: wrap;
+    flex-wrap: wrap;
+    -ms-flex-align: center;
+    align-items: center;
+    -ms-flex-pack: justify;
+    justify-content: space-between;
+    padding: 5px;
+}
+
+.mx-background-top-linear {
+    background-color: #31b0d5;
+}
+.header-text{
+    text-transform: uppercase;
+    color:#fff;
+}
+.error_info{
+    display: none;
+    color: #a94442
+}
+
+ul li{
+    list-style: none;
+}
+
+#button_ffw{
+    font-size: 20px;
+    border-radius: 22px;
+    margin-bottom: 18px;
+}
+.genre-list{
+    text-align:center
+}
+.panel-scroll{
+    max-height: 570px;
+    overflow-y: scroll;
+}
+.music_list{
+    width: 228px;
+}

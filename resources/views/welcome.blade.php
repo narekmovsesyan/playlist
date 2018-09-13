@@ -16,11 +16,19 @@
         <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
         <script src="//code.jquery.com/jquery-1.11.1.min.js"></script>
         <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
-
+        <link rel="stylesheet" href="css/header.css" type="text/css">
 
 
     </head>
     <body>
+        <div class="fixed-top">
+            <nav class="navbar navbar-expand-lg navbar-dark mx-background-top-linear">
+                <div class="container">
+                    <a class="navbar-brand header-text" href="{{env('APP_URL')}}" >Music Player</a>
+                </div>
+            </nav>
+        </div>
+
         <div class="flex-center position-ref full-height">
             <div class="container">
                 <div class="content">
@@ -29,7 +37,7 @@
                             <div class="panel-group" id="accordion">
                                 <div class="panel panel-default">
                                     <div class="panel-heading col-sm-8 col-md-8">
-                                        <span style="text-align:center">
+                                        <span class="genre-list">
                                               Genre List
                                           </span>
                                         </h4>
@@ -43,7 +51,7 @@
                                     <div id="collapseOne" class="panel-collapse collapse in">
                                         <ul class="list-group table">
                                           @foreach($all_genres as $genre)
-                                                <li style="list-style: none">
+                                                <li>
                                                     <span class="col-sm-4 col-md-4 font-weight-bold"><strong>{{ $genre->title }}</strong></span>
                                                     <span class="col-sm-3 col-md-3 font-weight-light">all {{ $genre->songs_count }}</span>
                                                     <div class="form-group col-sm-5 col-md-5">
@@ -65,9 +73,7 @@
                                             @endforeach
                                               <button type="submit" class="btn btn-default center-block save-playlist">Save Playlist</button>
                                         </ul>
-                                        <p class="error_info text-center" style="display: none;color: #a94442">Please select Genre</p>
-                                        <p class="error_select_more_count text-center" style="display: none;color: #a94442">Selected points can't be more 10</p>
-                                        <p class="error_select_min_count text-center" style="display: none;color: #a94442">Selected points should be 10</p>
+                                        <p class="error_info text-center">Please select Genre</p>
 
                                     </div>
                                 </div>
@@ -80,7 +86,7 @@
 
                                     </video>
                                 </div>
-                                <button type="button" id="button_ffw" class="btn center-block" style="font-size: 20px;border-radius: 22px;margin-bottom: 18px;">
+                                <button type="button" id="button_ffw" class="btn center-block">
                                     <i class="fa fa-fast-forward"></i>
                                 </button>
                             </div>
@@ -89,8 +95,8 @@
                         <div class="col-sm-4 col-md-3">
                             <div class="panel panel-default">
                                 <div class="panel-heading">Music Playlist</div>
-                                <div class="panel-body" style="max-height: 570px;overflow-y: scroll;">
-                                    <div class="music_list" style="width: 228px">
+                                <div class="panel-body panel-scroll">
+                                    <div class="music_list">
                                         <ul class="list-group list-group-flush all_songs_ul">
 
                                         </ul>
@@ -102,15 +108,7 @@
                 </div>
             </div>
         </div>
-
         <script src="{{ asset('/js/savePlaylist.js') }}"></script>
-
-
-        <style>
-            .active_song{
-                background-color: #31b0d5;
-            }
-        </style>
     </body>
 </html>
 
