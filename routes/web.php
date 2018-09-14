@@ -17,3 +17,7 @@
 
 Route::get('/', 'IndexController@index');
 Route::post('/store-playlist', 'IndexController@playlistDataAjax');
+
+Auth::routes();
+
+Route::get('/home', 'HomeController@index')->name('home');

@@ -25,6 +25,11 @@
             <nav class="navbar navbar-expand-lg navbar-dark mx-background-top-linear">
                 <div class="container">
                     <a class="navbar-brand header-text" href="{{env('APP_URL')}}" >Music Player</a>
+
+                    <div style="float:right">
+                        <a class="navbar-brand header-text" href="/login">Login</a>
+                        <a class="navbar-brand header-text" href="/register">Register</a>
+                    </div>
                 </div>
             </nav>
         </div>
@@ -101,7 +106,6 @@
                                 <div class="panel-body panel-scroll">
                                     <div class="music_list">
                                         <ul class="list-group list-group-flush all-songs-ul">
-
                                         </ul>
                                     </div>
                                 </div>
