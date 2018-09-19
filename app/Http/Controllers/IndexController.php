@@ -21,7 +21,7 @@ class IndexController extends Controller
             $genre['songs_count'] = count($genre->song);
         }
 
-        return view('welcome', compact("all_genres"));
+        return view('index', compact("all_genres"));
     }
 
     /**
@@ -30,47 +30,90 @@ class IndexController extends Controller
      */
     public function playlistDataAjax(Request $request)
     {
-
-        $count = 0;
-        $songs_count = 0;
         $playlist_genre_count = count($request['playlist']);
-        $all_points_count = 0;
 
-        foreach ($request['playlist'] as $genre_list) {
+        $firstData = $this->collectNeededData($request['playlist']);
+        $all_points_count = $firstData['all_points_count'];
+        $count = $firstData['count'];
+        $songs_count = $firstData['songs_count'];
 
-            $all_genres = Genre::where('id', $genre_list['genre_id'])->with('song')->get();
-            $songs_count += count($all_genres[0]->song);
+        $json = $this->getJsonData();
 
-            $genre_for_compaire = $request['playlist'][0]['points'];
-
-            if ($genre_for_compaire == $genre_list['points']) {
-                $count++;
-            }
-
-            $all_points_count += $genre_list['points'];
-        }
-
-        $str = file_get_contents(public_path('songs.json'));
-        $json = json_decode($str, true);
         $music_playlist = [];
         $songs_small_count_error = false;
+        $find_max = [];
+        $max_array = [];
+        $max_key = $this->getMax($request['playlist']);
+
 
         if ($count == $playlist_genre_count) {
             $each_genre_percent = 100 / $playlist_genre_count;
+            $songs_count_round = round(($songs_count * $each_genre_percent) / 100);
 
-            foreach ($request['playlist'] as $genre_list) {
-                $songs_count_round = round(($songs_count * $each_genre_percent) / 100);
-                $each_songs_data = Song::select('id')->where('genre_id', $genre_list['genre_id'])->inRandomOrder()->limit($songs_count_round)->get();
+            if (($count * $songs_count_round) > $songs_count) {
+                $count_2 = ($count * $songs_count_round) - $songs_count;
 
-                foreach ($each_songs_data as $song_data) {
-                    $music_playlist[] = $json[$song_data['id']];
+                $low_end = 0;
+                $arr_count = [];
+                while($low_end < $count_2){
+                    array_push($arr_count, $low_end++);
+                }
+
+                    foreach ($request['playlist'] as $genre_key => $genre_list) {
+
+                        if (in_array($genre_key, $arr_count)) {
+                            $each_songs_data = $this->selectEachGenreSongs($genre_list['genre_id'], $songs_count_round - 1);
+                        } else {
+                            $each_songs_data = $this->selectEachGenreSongs($genre_list['genre_id'], $songs_count_round );
+                        }
+
+                        foreach ($each_songs_data as $song_data) {
+                            $music_playlist[] = $json[$song_data['id']];
+                        }
+
+                        if (count($music_playlist) > $songs_count) {
+                            $missing_count = count($music_playlist) - $songs_count;
+
+                            for ($x = 0; $x < $missing_count; $x++) {
+                                $max_key = $this->getMax($request['playlist']);
+                                $max_keys[] = $max_key;
+                                unset($music_playlist[$max_key]);
+                            }
+                        }
+                    }
+            } else if (($count * $songs_count_round) < $songs_count) {
+                $count_3 = $songs_count - ($count * $songs_count_round);
+
+                $low_end = 0;
+                $arr_count = [];
+                while($low_end < $count_3){
+                    array_push($arr_count, $low_end++);
+                }
+
+                foreach ($request['playlist'] as $genre_key => $genre_list) {
+                    if (in_array($genre_key, $arr_count)) {
+                        $each_songs_data = $this->selectEachGenreSongs($genre_list['genre_id'], $songs_count_round + 1);
+                    } else {
+                        $each_songs_data = $this->selectEachGenreSongs($genre_list['genre_id'], $songs_count_round);
+                    }
+
+                    foreach ($each_songs_data as $song_data) {
+                        $music_playlist[] = $json[$song_data['id']];
+                    }
+                }
+
+            } else {
+                foreach ($request['playlist'] as $genre_key => $genre_list) {
+
+                    $each_songs_data = $this->selectEachGenreSongs($genre_list['genre_id'], $songs_count_round);
+
+                    foreach ($each_songs_data as $song_data) {
+                        $music_playlist[] = $json[$song_data['id']];
+                    }
                 }
             }
-
         } else {
 
-            $max_genre = 0;
-            $max_genre_id = [];
             $all_songs_float_data = [];
 
             foreach ($request['playlist'] as $genre) {
@@ -78,122 +121,40 @@ class IndexController extends Controller
                 $each_gender_songs_count = $songs_count / $all_points_count;
                 $selected_songs_count = $each_gender_songs_count * $genre['points'];
 
-                $each_songs_data = Song::select('id')->where('genre_id', $genre['genre_id'])->inRandomOrder()->limit(round($selected_songs_count))->get();
+                $count_for_select = round($selected_songs_count);
+                $each_songs_data = $this->selectEachGenreSongs($genre['genre_id'], $count_for_select);
+
                 $all_songs_float_data[$genre['genre_id']] = $selected_songs_count;
 
-                foreach ($each_songs_data as $song_data) {
-                    $music_playlist[] = $json[$song_data['id']];
+                if ($genre['genre_id'] == $max_key) {
+                    foreach ($each_songs_data as $song_data) {
+                        $first_key[] = count($music_playlist) - 1;
+                        $music_playlist[] = $json[$song_data['id']];
+                    }
+                } else {
+                    foreach ($each_songs_data as $song_data) {
+                        $music_playlist[] = $json[$song_data['id']];
+                    }
                 }
             }
 
-            $count_music_playlist = count($music_playlist);
-            $max_keys = [];
+            if ((count($music_playlist) - $songs_count) == 1) {
 
-            if ($count_music_playlist !== $songs_count) {
-                $music_playlist = [];
-                $difference_songs = $songs_count - $count_music_playlist - 1;
+                $music_playlist_last = [];
+                $max_songs_array_data = array_slice($music_playlist, $first_key[0] + 1 , end($first_key) - $first_key[0] + 1);
+                $cute_key = count($max_songs_array_data) - 1;
 
-//version 1
-                if ($difference_songs == 1) {
-                    $max_key = $this->getMax($all_songs_float_data);
+                foreach ($music_playlist as $music_key => $music_val) {
+                    if ($music_key != $cute_key) {
 
-                    foreach ($request['playlist'] as $genre) {
-
-                        $each_gender_songs_count = $songs_count / $all_points_count;
-                        $selected_songs_count = $each_gender_songs_count * $genre['points'];
-
-                        if ($genre['genre_id'] == $max_key) {
-                            $each_songs_data = Song::select('id')->where('genre_id', $genre['genre_id'])->inRandomOrder()->limit(round($selected_songs_count) + 1)->get();
-                            if (count($each_songs_data) !== round($selected_songs_count) + 1) {
-                                $songs_small_count_error = true;
-                            }
-                        } else {
-                            $each_songs_data = Song::select('id')->where('genre_id', $genre['genre_id'])->inRandomOrder()->limit(round($selected_songs_count))->get();
-                            if (count($each_songs_data) !== round($selected_songs_count)) {
-                                $songs_small_count_error = true;
-                            }
-                        }
-
-                        foreach ($each_songs_data as $song_data) {
-                            $music_playlist[] = $json[$song_data['id']];
-                        }
-                    }
-//version 2
-                } else if (($difference_songs > $playlist_genre_count) && ($difference_songs % 2) == 0) {
-
-                    $add_in_each_data = $difference_songs / $playlist_genre_count;
-
-                    foreach ($request['playlist'] as $genre) {
-
-                        $each_gender_songs_count = $songs_count / $all_points_count;
-                        $selected_songs_count = $each_gender_songs_count * $genre['points'];
-
-                        $each_songs_data = Song::select('id')->where('genre_id', $genre['genre_id'])->inRandomOrder()->limit(round($selected_songs_count) + $add_in_each_data)->get();
-                        if (count($each_songs_data) !== round($selected_songs_count) + $add_in_each_data) {
-                            $songs_small_count_error = true;
-                        }
-
-                        foreach ($each_songs_data as $song_data) {
-                            $music_playlist[] = $json[$song_data['id']];
-                        }
-                    }
-//version 3
-                } else if (($difference_songs > $playlist_genre_count) && ($difference_songs % 2) == 1) {
-
-                    $add_in_each_data = ($difference_songs - 1) / $playlist_genre_count;
-                    $max_key = $this->getMax($all_songs_float_data);
-                    $each_gender_songs_count = $songs_count / $all_points_count;
-
-                    foreach ($request['playlist'] as $genre) {
-                        $selected_songs_count = $each_gender_songs_count * $genre['points'];
-
-                        if ($genre['genre_id'] == $max_key) {
-                            $each_songs_data = Song::select('id')->where('genre_id', $genre['genre_id'])->inRandomOrder()->limit(round($selected_songs_count) + $add_in_each_data + 1)->get();
-                            if (count($each_songs_data) !== round($selected_songs_count) + $add_in_each_data + 1) {
-                                $songs_small_count_error = true;
-                            }
-                        } else {
-                            $each_songs_data = Song::select('id')->where('genre_id', $genre['genre_id'])->inRandomOrder()->limit(round($selected_songs_count) + $add_in_each_data)->get();
-                            if (count($each_songs_data) !== round($selected_songs_count) + $add_in_each_data) {
-                                $songs_small_count_error = true;
-                            }
-                        }
-
-                        foreach ($each_songs_data as $song_data) {
-                            $music_playlist[] = $json[$song_data['id']];
-                        }
-                    }
-//version 4
-                } else {
-
-                    for ($x = 0; $x < $difference_songs; $x++) {
-                        $max_key = $this->getMax($all_songs_float_data);
-                        $max_keys[] = $max_key;
-                        unset($all_songs_float_data[$max_key]);
-                    }
-
-                    foreach ($request['playlist'] as $genre) {
-
-                        $each_gender_songs_count = $songs_count / $all_points_count;
-                        $selected_songs_count = $each_gender_songs_count * $genre['points'];
-
-                        if(array_key_exists($genre['genre_id'], $max_keys)) {
-                            $each_songs_data = Song::select('id')->where('genre_id', $genre['genre_id'])->inRandomOrder()->limit(round($selected_songs_count) + 1)->get();
-                            if (count($each_songs_data) !== round($selected_songs_count) + 1) {
-                                $songs_small_count_error = true;
-                            }
-                        } else {
-                            $each_songs_data = Song::select('id')->where('genre_id', $genre['genre_id'])->inRandomOrder()->limit(round($selected_songs_count))->get();
-                            if (count($each_songs_data) !== round($selected_songs_count)) {
-                                $songs_small_count_error = true;
-                            }
-                        }
-
-                        foreach ($each_songs_data as $song_data) {
-                            $music_playlist[] = $json[$song_data['id']];
-                        }
+                        $music_playlist_last[$music_key] = $music_val;
+                    } else {
+                        $cut[$music_key] = $music_val;
                     }
                 }
+
+                $music_playlist = [];
+                $music_playlist = $music_playlist_last;
             }
 
         }
@@ -217,13 +178,109 @@ class IndexController extends Controller
      * @param $array
      * @return false|int|string
      */
-    function getMax($array) {
+    function getMax($playlist) {
 
-        $value = max($array);
+        foreach ($playlist as $key => $genre) {
 
-        $max_element_key = array_search($value, $array);
+            $find_max[$genre['genre_id']] = $genre['points'];
+        }
+
+        $value = max($find_max);
+        $max_element_key = array_search($value, $find_max);
 
         return $max_element_key;
     }
 
+    /**
+     * @return mixed
+     */
+    function getJsonData(){
+
+        $str = file_get_contents(public_path('songs.json'));
+        $json = json_decode($str, true);
+
+        return $json;
+    }
+
+    /**
+     * @param $data
+     * @return array
+     */
+    public function collectNeededData($dataPlaylist){
+
+        $count = 0;
+        $songs_count = 0;
+        $all_points_count = 0;
+
+        foreach ($dataPlaylist as $genre_list) {
+
+            $all_genres = Genre::where('id', $genre_list['genre_id'])->with('song')->get();
+            $songs_count += count($all_genres[0]->song);
+
+            $genre_for_compaire = $dataPlaylist[0]['points'];
+
+            if ($genre_for_compaire == $genre_list['points']) {
+                $count++;
+            }
+
+            $all_points_count += $genre_list['points'];
+        }
+
+
+
+
+        return [
+            'count' => $count,
+            'songs_count' => $songs_count,
+            'all_points_count' => $all_points_count
+        ];
+    }
+
+    /**
+     * @param $songs_count
+     * @param $all_points_count
+     * @param $genre_points
+     * @return int
+     */
+    public function selectedSongsCount($songs_count, $all_points_count, $genre_points){
+
+        $each_gender_songs_count = $songs_count / $all_points_count;
+        $selected_songs_count = $each_gender_songs_count * $genre_points;
+
+        return $selected_songs_count;
+    }
+
+    /**
+     * @param $genre_id
+     * @param $count
+     * @return mixed
+     */
+    public function selectEachGenreSongs($genre_id, $count, $check_count = false, $songs_data = false){
+
+        if ($check_count == false && $songs_data == false) {
+            $each_songs_data = Song::select('id')->where('genre_id', $genre_id)->inRandomOrder()->limit($count)->get();
+        }
+
+        if ($songs_data) {
+            $each_songs_data = $songs_data;
+
+            $each_playlist = Song::select('id')->where('genre_id', $genre_id)->inRandomOrder()->limit($count)->get();
+
+            foreach($each_playlist as $array)
+            {
+                $each_songs_data[] = $array->toArray();
+            }
+
+            $count = $check_count;
+        }
+
+        if (count($each_songs_data) != $count) {
+            $missing_count = $count - count($each_songs_data);
+
+            $this->selectEachGenreSongs($genre_id, $missing_count, $count, $each_songs_data);
+        }
+
+        return $each_songs_data;
+
+    }
 }

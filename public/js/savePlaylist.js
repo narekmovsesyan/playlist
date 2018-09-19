@@ -34,15 +34,20 @@ $( document ).ready(function() {
                 var video = document.getElementById('video');
                 var source = document.createElement('source');
 
-                $.each(data['music_playlist'][0], function( key, value ) {
+                console.log('data');
+                console.log(data['music_playlist']);
 
-                    source.setAttribute('src', '/videos/'+value);
+                if (data['music_playlist'][0]) {
+                    $.each(data['music_playlist'][0], function( key, value ) {
 
-                    video.pause();
-                    video.appendChild(source);
-                    video.load();
-                    video.play();
-                });
+                        source.setAttribute('src', '/videos/'+value);
+
+                        video.pause();
+                        video.appendChild(source);
+                        video.load();
+                        video.play();
+                    });
+                }
 
                 $.each(data['music_playlist'], function( key, value ) {
                     $.each(value, function( index2, value2 ) {
