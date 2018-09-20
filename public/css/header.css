@@ -23,9 +23,8 @@
     color:#fff;
 }
 .header-text:hover{
-    font-size: 26px;
     font-family: cursive;
-    color:#fff;
+    color: #d5eeff;
 }
 .error-info{
     display: none;
@@ -48,7 +47,7 @@ ul li{
     max-height: 570px;
     overflow-y: scroll;
 }
-.music_list{
+.music-list{
     width: 228px;
 }
 #headStyleList{
@@ -61,3 +60,39 @@ ul li{
     background-color: #31b0d5;
     color: #f5f8fa;
 }
+.decoration-none {
+    text-decoration: none !important;
+}
+
+.login-user-name {
+    color: #fff !important;
+}
+
+.header-text2{
+    font-size: 17px;
+    font-family: cursive;
+    color:#fff !important;
+}
+.header-text2:hover{
+    font-family: cursive;
+    color: #d5eeff;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

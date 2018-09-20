@@ -15,12 +15,8 @@ class Genre extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id', 'title'];
+    protected $fillable = ['id', 'title', 'creator_id'];
 
-    /**
-     * @var bool
-     */
-    public $timestamps = false;
 
 
     /**

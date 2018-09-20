@@ -14,19 +14,19 @@ class GenresTableSeeder extends Seeder
         $types = [
             [
                 'id'         => 1,
-                'title' => 'Баста'
+                'title' => 'Rap'
             ],
             [
                 'id'         => 2,
-                'title' => 'Любэ'
+                'title' => 'Rock'
             ],
             [
                 'id'         => 3,
-                'title' => 'Игорь Крутой'
+                'title' => 'Melody'
             ],
             [
                 'id'         => 4,
-                'title' => 'Не пара'
+                'title' => 'Pop'
             ]
         ];
 

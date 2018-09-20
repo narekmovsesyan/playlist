@@ -17,12 +17,8 @@ class Song extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id', 'name', 'genre_id'];
+    protected $fillable = ['id', 'name', 'file_name', 'creator_id', 'genre_id'];
 
-    /**
-     * @var bool
-     */
-    public  $timestamps = false;
 
     /**
      * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany

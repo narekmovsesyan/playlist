@@ -104,7 +104,7 @@
                             <div class="panel panel-default">
                                 <div class="panel-heading" id="headStyleList">Music Playlist</div>
                                 <div class="panel-body panel-scroll">
-                                    <div class="music_list">
+                                    <div class="music-list">
                                         <ul class="list-group list-group-flush all-songs-ul">
                                         </ul>
                                     </div>
