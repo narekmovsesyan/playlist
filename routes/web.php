@@ -11,9 +11,6 @@
 |
 */
 
-//Route::get('/', function () {
-//    return view('welcome');
-//});
 
 Route::get('/', 'IndexController@index');
 Route::post('/store-playlist', 'IndexController@playlistDataAjax');
@@ -22,6 +19,5 @@ Auth::routes();
 
 Route::get('/home', 'HomeController@index')->name('home');
 
-Auth::routes();
-
-Route::get('/home', 'HomeController@index')->name('home');
+//user profile edit
+Route::post('/edit-user-info', 'UserController@editInfo')->name('/edit-user-info');;

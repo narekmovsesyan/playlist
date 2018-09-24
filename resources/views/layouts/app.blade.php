@@ -12,6 +12,9 @@
 
     <!-- Scripts -->
     <script src="{{ asset('js/app.js') }}" defer></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.3/js/bootstrap.min.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
 
     <!-- Fonts -->
     <link rel="stylesheet" href="css/header.css" type="text/css">
@@ -32,15 +35,26 @@
 
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <!-- Left Side Of Navbar -->
-                    <ul class="navbar-nav mr-auto">
+                    <ul class="navbar-nav mr-auto"></ul>
 
-                    </ul>
+                    @guest
+
+
+                    @else
+                        @if (request()->path() == 'home')
+                            <div class="nav-item">
+                                <a  href="{{ route('register') }}"><span class="header-text2 menu-list">Playlists</span></a>
+
+                                <a  href="{{ route('register') }}"><span class="header-text2 menu-list">Songs</span></a>
+                            </div>
+                        @endif
+                    @endguest
+
 
                     <!-- Right Side Of Navbar -->
                     <ul class="navbar-nav ml-auto">
                         <!-- Authentication Links -->
                         @guest
-
                             @if (request()->path() == 'register')
                                 <li class="nav-item">
                                     <a class="nav-link" href="{{ route('login') }}"><span class="header-text">{{ __('Login') }}</span></a>
