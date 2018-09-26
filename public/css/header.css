@@ -1,7 +1,6 @@
 .active-song{
     background-color: #31b0d5;
 }
-
 .navbar {
     display: -ms-flexbox;
     display: flex;
@@ -13,7 +12,6 @@
     justify-content: space-between;
     padding: 5px;
 }
-
 .mx-background-top-linear {
     background-color: #31b0d5;
 }
@@ -30,7 +28,6 @@
     display: none;
     color: #a94442
 }
-
 ul li{
     list-style: none;
 }
@@ -63,11 +60,9 @@ ul li{
 .decoration-none {
     text-decoration: none !important;
 }
-
 .login-user-name {
     color: #fff !important;
 }
-
 .header-text2{
     font-size: 17px;
     font-family: cursive;
@@ -77,11 +72,9 @@ ul li{
     font-family: cursive;
     color: #d5eeff;
 }
-
 .menu-list{
     padding-right: 15px;
 }
-
 .avatar-position{
     border: 2px solid rgb(225,253,255);
     width: 250px;
@@ -96,7 +89,47 @@ ul li{
     max-height: 250px;
     max-width: 250px;
 }
+/*-----------------Playlist page styles-------------------*/
+.playlist-background{
+    max-height: 110px;
+    max-width: 110px;
+}
+.playlist-div{
+    border: 1px solid #22aed4;
+    width: 135px;
+    text-align: center;
+    margin-left: 10px;
+    padding: 5px;
+}
+.a-text-decor{
+    text-decoration: none !important;
+    color: #22aed4;
+}
+.a-text-decor:hover{
+    font-size: 15px;
+    font-weight: bold;
+    text-decoration: none !important;
+    color: #1c97d4;
+}
+.playlist-font-family{
+    font-family: fantasy;
+}
+body{
+    background-image: url("../images/default/b2.gif");
+}
 
+.card-header{
+    border-bottom: 3px solid #31b0d52e !important;
+    background-color: #31b0d517 !important;
+}
+.card{
+    border: 2px solid #31b0d554 !important;
+}
+.players-title{
+    font-size: large;
+    font-family: cursive;
+    color: #31b0d5d6;
+}
 
 
 

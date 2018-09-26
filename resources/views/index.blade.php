@@ -24,7 +24,9 @@
         <div class="fixed-top">
             <nav class="navbar navbar-expand-lg navbar-dark mx-background-top-linear">
                 <div class="container">
-                    <a class="navbar-brand header-text" href="{{env('APP_URL')}}" >Music Player</a>
+                    <a class="navbar-brand header-text" href="{{env('APP_URL')}}" >Music Player
+                        <img src="images/default/audioblack.svg" alt="icon">
+                    </a>
 
                     <div style="float:right">
                         <a class="navbar-brand header-text" href="/login">Login</a>

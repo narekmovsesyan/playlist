@@ -66,15 +66,12 @@
                                                 <div class="form-group">
                                                     <label for="userPassword">Password</label>
                                                     <input type="password" name="password" class="form-control" id="userPassword" placeholder="">
-                                                    @if ($errors->has('password'))
-                                                        <div class="alert-danger">{{$errors->first('password')}}</div>
-                                                    @endif
                                                 </div>
                                                 <div class="form-group">
                                                     <label for="userPassword">Repeat Password</label>
                                                     <input type="password" name="password_confirmation" class="form-control" id="passwordConfirmation" placeholder="">
-                                                    @if ($errors->has('password_confirmation'))
-                                                        <div class="alert-danger">{{$errors->first('password_confirmation')}}</div>
+                                                    @if ($errors->has('password'))
+                                                        <div class="alert-danger">{{$errors->first('password')}}</div>
                                                     @endif
                                                 </div>
                                                 <div class="form-group">

@@ -20,4 +20,10 @@ Auth::routes();
 Route::get('/home', 'HomeController@index')->name('home');
 
 //user profile edit
-Route::post('/edit-user-info', 'UserController@editInfo')->name('/edit-user-info');;
+Route::post('/edit-user-info', 'UserController@editInfo')->name('/edit-user-info');
+
+//user playlist
+Route::resource('/playlists', 'PlaylistController');
+
+//user playlist songs
+Route::resource('/user-playlist-songs', 'UserSongsController');
