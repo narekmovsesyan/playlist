@@ -92,15 +92,10 @@
         </main>
     </div>
 
-    <script
-            src="http://code.jquery.com/jquery-1.12.0.js"
-            integrity="sha256-yFU3rK1y8NfUCd/B4tLapZAy9x0pZCqLZLmFL3AWb7s="
-            crossorigin="anonymous"></script>
-
-
+    <script src="http://code.jquery.com/jquery-1.12.0.js" integrity="sha256-yFU3rK1y8NfUCd/B4tLapZAy9x0pZCqLZLmFL3AWb7s=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
 {{--    <script src="{{ asset('js/app.js') }}" ></script>--}}
-    @stack('scripts')
+    @yield('script')
 </body>
 </html>

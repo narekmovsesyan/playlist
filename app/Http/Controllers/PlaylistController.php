@@ -6,6 +6,8 @@ use App\Genre;
 use App\Playlist;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Song;
+use App\PlaylistSong;
 
 class PlaylistController extends Controller
 {
@@ -71,7 +73,9 @@ class PlaylistController extends Controller
     public function show($id)
     {
         $playlist = Playlist::find($id);
-        return view('user_playlist_songs', compact('playlist'));
+        $songs = Song::info()->get();
+
+        return view('user_playlist_songs', compact('playlist', 'songs'));
     }
 
     /**
@@ -106,5 +110,36 @@ class PlaylistController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    /**
+     * @param Request $request
+     */
+    public function addMusicInPlaylist(Request $request)
+    {
+        $songs_id = $request['songsId'];
+        $playlist_id = $request['playlistId'];
+
+        foreach ($songs_id as $song_id)
+        {
+            $songs[] = [
+                'song_id' => $song_id,
+                'playlist_id' => $playlist_id,
+            ];
+        }
+
+        $result = PlaylistSong::insert($songs);
+
+        if ($result) {
+            return [
+                'status' => 200,
+                'message' => 'Songs added successfully.',
+            ];
+        } else {
+            return [
+                'status' => 400,
+                'message' => 'Something went wrong'
+            ];
+        }
     }
 }

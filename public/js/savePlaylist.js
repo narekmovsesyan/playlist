@@ -34,9 +34,6 @@ $( document ).ready(function() {
                 var video = document.getElementById('video');
                 var source = document.createElement('source');
 
-                console.log('data');
-                console.log(data['music_playlist']);
-
                 if (data['music_playlist'][0]) {
                     $.each(data['music_playlist'][0], function( key, value ) {
 

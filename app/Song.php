@@ -17,13 +17,28 @@ class Song extends Model
     /**
      * @var array
      */
-    protected $fillable = ['id', 'name', 'file_name', 'creator_id', 'genre_id'];
-
+    protected $fillable = ['id', 'title', 'singer', 'file_name', 'creator_id', 'genre_id'];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsToMany
+     * @param $query
+     * @return mixed
      */
-    public function genres(){
-        return $this->belongsToMany('App\Genre');
+    public function scopeInfo($query)
+    {
+        return $query->with('genre', 'creator');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function genre(){
+        return $this->belongsTo('App\Genre', 'genre_id', 'id');
+    }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     */
+    public function creator(){
+        return $this->belongsTo('App\User', 'creator_id', 'id');
     }
 }

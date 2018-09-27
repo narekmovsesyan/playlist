@@ -8,7 +8,7 @@
  */
 
 define('LARAVEL_START', microtime(true));
-
+ini_set('xdebug.max_nesting_level', 5000);
 /*
 |--------------------------------------------------------------------------
 | Register The Auto Loader

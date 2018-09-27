@@ -24,6 +24,7 @@ Route::post('/edit-user-info', 'UserController@editInfo')->name('/edit-user-info
 
 //user playlist
 Route::resource('/playlists', 'PlaylistController');
+Route::get('/add-music-in-playlist', 'PlaylistController@addMusicInPlaylist')->name('/add-music-in-playlist');
 
 //user playlist songs
 Route::resource('/user-playlist-songs', 'UserSongsController');

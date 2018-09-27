@@ -22,7 +22,6 @@ class CreateSongsPlaylistsTable extends Migration
             $table->foreign('song_id')->references('id')->on('songs');
             $table->foreign('playlist_id')->references('id')->on('playlists');
 
-            $table->timestamp();
         });
     }
 
