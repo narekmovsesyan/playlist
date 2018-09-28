@@ -30,13 +30,13 @@
                                         <div class="float-left playlist-div mb-1">
                                             <img class="playlist-background img-responsive center-block"  src="images\default\default-album-110x110.jpg" alt="avatar">
                                             <h5 class="text-info playlist-font-family">{{$user_playlists[0]->title}}</h5>
-                                            <a href="playlists/{{$user_playlists[0]}}" class="a-text-decor">Show Playlist</a>
+                                            <a href="playlists/{{$user_playlists[0]->id}}" class="a-text-decor 4">Show Playlist</a>
                                         </div>
                                     @else
                                         <div class="float-left playlist-div mb-1">
                                             <img  src="images\playlist\backgrounds\{{$user_playlists[0]->background}}" alt="playlist" class="playlist-background">
                                             <h5 class="text-info playlist-font-family">{{$user_playlists[0]->title}}</h5>
-                                            <a href="playlists/{{$user_playlists[0]}}" class="a-text-decor">Show Playlist</a>
+                                            <a href="playlists/{{$user_playlists[0]->id}}" class="a-text-decor 5">Show Playlist</a>
                                         </div>
                                     @endif
                                 @endif

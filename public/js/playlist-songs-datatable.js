@@ -53,11 +53,17 @@ $(document).ready(function() {
             data: { songsId: songsId, playlistId: playlistId},
 
             success: function(data) {
+                if (data['status'] !== 400) {
+
+                $('.successful').show('fast');
+
+                    function refresh(){
+                        location.reload();
+                        window.scrollTo(0, 0);
+                    }
+                    setTimeout(refresh, 600);
+                }
             }
         });
     } );
-
-
-
-
 });

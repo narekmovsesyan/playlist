@@ -131,7 +131,17 @@ body{
     font-family: cursive;
     color: #31b0d5d6;
 }
-
+.playlist-songs-list{
+    height: 355px;
+    overflow:auto;
+}
+.successful{
+    display: none;
+    margin-top: 10px;
+    font-size: large;
+    font-family: cursive;
+    color: #38c172;
+}
 
 
 

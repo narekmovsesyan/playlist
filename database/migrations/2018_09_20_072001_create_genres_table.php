@@ -14,9 +14,10 @@ class CreateGenresTable extends Migration
     public function up()
     {
         Schema::create('genres', function (Blueprint $table) {
+            $table->engine = 'InnoDB';
             $table->increments('id');
             $table->text('title');
-            $table->unsignedInteger('creator_id')->nullable();
+            $table->unsignedInteger('creator_id');
             $table->timestamps();
 
             $table->foreign('creator_id')->references('id')->on('users');

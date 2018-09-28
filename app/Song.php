@@ -41,4 +41,11 @@ class Song extends Model
     public function creator(){
         return $this->belongsTo('App\User', 'creator_id', 'id');
     }
+
+    /**
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
+     */
+    public function playlistSong(){
+        return $this->belongsTo('App\PlaylistSong', 'song_id', 'id');
+    }
 }

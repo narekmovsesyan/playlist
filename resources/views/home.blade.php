@@ -94,13 +94,14 @@
             </div>
         </div>
     </div>
+@endsection
 
+@section('script')
     <script type="text/javascript">
         $(document).ready(function() {
             @if (count($errors) > 0)
-                $('#changeInfo').modal('show');
+            $('#changeInfo').modal('show');
             @endif
         })
-
     </script>
 @endsection

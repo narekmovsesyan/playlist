@@ -72,7 +72,8 @@ class PlaylistController extends Controller
      */
     public function show($id)
     {
-        $playlist = Playlist::find($id);
+        $playlist = Playlist::where('id', $id)->with('playlistSongs.songs')->first();
+
         $songs = Song::info()->get();
 
         return view('user_playlist_songs', compact('playlist', 'songs'));

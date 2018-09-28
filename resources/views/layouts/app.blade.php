@@ -9,6 +9,9 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title> Home </title>
+    <link rel="icon"
+          type="image/png"
+          href="{{asset('images/default/icon.ico')}}">
 
     <!-- Latest compiled and minified CSS -->
 
@@ -37,20 +40,22 @@
                     @guest
 
                     @else
-                        @if (request()->path() == 'home')
+                        @if (Request::is('home'))
                             <div class="nav-item">
-                                <a  href="{{ url('/playlists') }}"><span class="header-text2 menu-list">Playlists</span></a>
+                                <a href="{{ url('/playlists') }}"><span class="header-text2 menu-list">Playlists</span></a>
 
-                                {{--<a  href="{{ route('song') }}"><span class="header-text2 menu-list">Songs</span></a>--}}
+                                <a  href=""><span class="header-text2 menu-list">Songs</span></a>
                             </div>
-                        @endif
-
-                        @if(Request::is('playlists/', '*'))
+                        @elseif(Request::is('playlists/', '*'))
+                            {{--{{dd(request()->path())}}--}}
                             <div class="nav-item">
                                 <a  href="{{ url('playlists') }}"><span class="header-text2 menu-list">Playlists</span></a>
                             </div>
                             <div class="nav-item">
                                 <a  href="{{ url('playlists') }}"><span class="header-text2 menu-list">Songs</span></a>
+                            </div>
+                                <div class="nav-item">
+                                <a  href="/home"><span class="header-text2 menu-list">Profile</span></a>
                             </div>
                         @endif
                     @endguest
@@ -95,7 +100,7 @@
     <script src="http://code.jquery.com/jquery-1.12.0.js" integrity="sha256-yFU3rK1y8NfUCd/B4tLapZAy9x0pZCqLZLmFL3AWb7s=" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
     <script type="text/javascript" src="https://cdn.datatables.net/1.10.11/js/jquery.dataTables.min.js"></script>
-{{--    <script src="{{ asset('js/app.js') }}" ></script>--}}
+    {{--<script src="{{ asset('js/app.js') }}" ></script>--}}
     @yield('script')
 </body>
 </html>
