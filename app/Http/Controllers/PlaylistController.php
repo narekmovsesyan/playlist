@@ -8,6 +8,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Song;
 use App\PlaylistSong;
+use App\Http\Requests\CheckSongUserRequest;
 
 class PlaylistController extends Controller
 {
@@ -135,6 +136,40 @@ class PlaylistController extends Controller
             return [
                 'status' => 200,
                 'message' => 'Songs added successfully.',
+            ];
+        } else {
+            return [
+                'status' => 400,
+                'message' => 'Something went wrong'
+            ];
+        }
+    }
+
+    /**
+     * @param Request $request
+     * @return array|Request
+     */
+    public function removeMusicFromPlaylist(Request $request)
+    {
+        $playlist_id = $request['playlistId'];;
+        $songs_id = $request['songsId'];
+        $deletedRows = [];
+
+        foreach($songs_id as $song_id){
+            $result = PlaylistSong::where([['playlist_id', $playlist_id],
+                                                ['song_id', $song_id]])->first();
+
+            $result->delete();
+
+            if (count($result) > 0) {
+                $deletedRows[] = $result;
+            }
+        }
+
+        if (count($deletedRows) == count($songs_id)) {
+            return [
+                'status' => 200,
+                'message' => 'Songs deleted successfully.',
             ];
         } else {
             return [

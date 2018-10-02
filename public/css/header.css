@@ -132,7 +132,7 @@ body{
     color: #31b0d5d6;
 }
 .playlist-songs-list{
-    height: 355px;
+    max-height: 355px;
     overflow:auto;
 }
 .successful{
@@ -142,8 +142,84 @@ body{
     font-family: cursive;
     color: #38c172;
 }
+.delete-song{
+    background-color: #f7bbb5;
+    border: 1px solid #f7bbb5;
+}
+.songs-content{
+    margin-top: 4px;
+}
+.remove-songs-checkbox{
+    display: none;
+}
+.delete-selected{
+    display: none;
+    margin-right: 5px;
+}
+.multiple-delete-style{
+    float: right;
+    color: rgb(143, 222, 245);
+    background-color: rgb(236, 248, 251);
+    border: 1px solid rgb(187, 229, 241);
+}
+.multiple-delete-style:hover {
+    float: right;
+    color: #31b0d5d6;
+    background-color: #fff;
+    border: 1px solid #31b0d5d6;
+}
+.delete-selected {
+    float: right;
+    color: rgb(245, 143, 143);
+    background-color: #fff;
+    border: 1px solid rgb(245, 143, 143);
+}
+.delete-selected:hover{
+    float: right;
+    color: rgb(220, 117, 117);
+    background-color: #fff;
+    border: 1px solid rgb(209, 148, 148);
+}
 
-
+.remove-songs-checkbox{
+    width: 26px;
+    height: 23px;
+    padding: 0;
+    margin:0;
+    vertical-align: bottom;
+    position: relative;
+    top: -1px;
+    *overflow: hidden;
+}
+.song-text-color{
+    color: #179abd;
+}
+.playlist-song-name{
+    font-weight: bold;
+}
+.singer-name{
+    margin-left: 12px;
+}
+.singer{
+    margin-left: 45px;
+}
+.information-div{
+    display: none;
+}
+.delete-success-information{
+    font-size: large;
+    font-family: cursive;
+    color: #38c172;
+}
+.delete-error-information{
+    font-size: large;
+    font-family: cursive;
+    color: #f1f1f1;
+    background-color: #d19494;
+}
+.second-section{
+    margin-top: 12px;
+}
 
 
 

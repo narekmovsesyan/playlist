@@ -65,5 +65,56 @@ $(document).ready(function() {
                 }
             }
         });
-    } );
+    });
+
+// // for multiple remove
+    $('.multiple-delete').on("click", function() {
+        var visibility = $('.remove-songs-checkbox').css('display');
+
+        if (visibility === "none") {
+            $('.delete-song').hide();
+            $('.remove-songs-checkbox').show();
+            $('.delete-selected').show();
+            $('.singer-name').addClass('singer');
+        } else {
+            $('.remove-songs-checkbox').hide();
+            $('.delete-song').show();
+            $('.delete-selected').hide();
+
+        }
+    });
+//
+//
+// // for remove song in playlist
+    $('.delete-selected').on("click", function() {
+        var songsId = [];
+
+        $('input:checked').each(function(){
+            songsId.push({id : $(this).data('id')});
+        });
+
+        var playlistId = $('.delete-selected').data('playlist-id');
+
+        $.ajax({
+            method: "Get",
+            url: "/remove-music-from-playlist",
+            data: { songsId: songsId, playlistId: playlistId},
+
+            success: function(data) {
+                if (data['status'] !== 400) {
+
+                    $('.delete-success-information').show('fast');
+
+                    function refresh(){
+                        location.reload();
+                        window.scrollTo(0, 0);
+                    }
+                    setTimeout(refresh, 600);
+                } else {
+                    $('.delete-error-information').show('fast');
+                }
+            }
+        });
+    });
+
 });

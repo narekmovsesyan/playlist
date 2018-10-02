@@ -97,6 +97,8 @@
 @endsection
 
 @section('script')
+    <script src="{{ asset('js/app.js') }}" ></script>
+
     <script type="text/javascript">
         $(document).ready(function() {
             @if (count($errors) > 0)

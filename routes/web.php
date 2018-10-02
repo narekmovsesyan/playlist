@@ -22,9 +22,15 @@ Route::get('/home', 'HomeController@index')->name('home');
 //user profile edit
 Route::post('/edit-user-info', 'UserController@editInfo')->name('/edit-user-info');
 
+//------------------------------Playlist-----------------------------------------
 //user playlist
 Route::resource('/playlists', 'PlaylistController');
 Route::get('/add-music-in-playlist', 'PlaylistController@addMusicInPlaylist')->name('/add-music-in-playlist');
+Route::get('/remove-music-from-playlist', 'PlaylistController@removeMusicFromPlaylist')->name('/remove-music-from-playlist');
 
 //user playlist songs
 Route::resource('/user-playlist-songs', 'UserSongsController');
+
+//------------------------------Songs--------------------------------------------
+//songs page
+Route::resource('/songs', 'SongController');
